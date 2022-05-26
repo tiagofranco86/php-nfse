@@ -3,11 +3,12 @@
 namespace NFePHP\NFSe\Models\Abrasf\Factories\v202;
 
 use NFePHP\Common\DOMImproved as Dom;
-use NFePHP\NFSe\Models\Abrasf\Factories\RecepcionarLoteRps as RecepcionarLoteRpsBase;
+use NFePHP\NFSe\Models\Abrasf\Factories\RecepcionarLoteRpsSincrono as RecepcionarLoteRpsBase;
 use NFePHP\NFSe\Models\Abrasf\Factories\Signer;
 
 class RecepcionarLoteRpsSincrono extends RecepcionarLoteRpsBase
 {
+    protected $version = "2.02";
     /**
      * Método usado para gerar o XML do Soap Request
      * @param $versao
@@ -42,7 +43,7 @@ class RecepcionarLoteRpsSincrono extends RecepcionarLoteRpsBase
 
         $loteRps = $dom->createElement('LoteRps');
         $loteRps->setAttribute('Id', "lote{$lote}");
-        $loteRps->setAttribute('versao', '2.02');
+        $loteRps->setAttribute('versao', $this->version);
 
         $dom->appChild($root, $loteRps, 'Adicionando tag LoteRps a EnviarLoteRpsSincronoEnvio');
 
