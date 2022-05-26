@@ -115,7 +115,7 @@ class Tools extends ToolsBase
         return $this->sendRequest('', $message);
     }
 
-    public function ConsultarNfsePorRps($numero, $serie, $tipo)
+    public function consultarNfsePorRps($numero, $serie, $tipo)
     {
         $class = "NFePHP\\NFSe\\Models\\Publica\\Factories\\v{$this->versao}\\ConsultarNfsePorRps";
         $fact = new $class($this->certificate);
