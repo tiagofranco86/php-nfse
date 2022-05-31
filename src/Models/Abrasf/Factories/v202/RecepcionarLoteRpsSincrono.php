@@ -3,12 +3,14 @@
 namespace NFePHP\NFSe\Models\Abrasf\Factories\v202;
 
 use NFePHP\Common\DOMImproved as Dom;
-use NFePHP\NFSe\Models\Abrasf\Factories\RecepcionarLoteRpsSincrono as RecepcionarLoteRpsBase;
+use NFePHP\NFSe\Models\Abrasf\Factories\RecepcionarLoteRpsSincrono as RecepcionarLoteRpsSincronoBase;
 use NFePHP\NFSe\Models\Abrasf\Factories\Signer;
 
-class RecepcionarLoteRpsSincrono extends RecepcionarLoteRpsBase
+class RecepcionarLoteRpsSincrono extends RecepcionarLoteRpsSincronoBase
 {
     protected $version = "2.02";
+    protected $rendeRps = RenderRps::class;
+
     /**
      * Método usado para gerar o XML do Soap Request
      * @param $versao
@@ -36,7 +38,7 @@ class RecepcionarLoteRpsSincrono extends RecepcionarLoteRpsBase
         $dom->formatOutput = false;
         //Cria o elemento pai
         $root = $dom->createElement('EnviarLoteRpsSincronoEnvio');
-        $root->setAttribute('xmlns', $this->xmlns);
+        //$root->setAttribute('xmlns', $this->xmlns);
 
         //Adiciona as tags ao DOM
         $dom->appendChild($root);
@@ -101,7 +103,7 @@ class RecepcionarLoteRpsSincrono extends RecepcionarLoteRpsBase
         $dom->appChild($loteRps, $listaRps, 'Adicionando tag ListaRps a LoteRps');
 
         foreach ($rpss as $rps) {
-            RenderRps::appendRps($rps, $this->timezone, $this->certificate, $this->algorithm, $dom, $listaRps);
+            $this->rendeRps::appendRps($rps, $this->timezone, $this->certificate, $this->algorithm, $dom, $listaRps);
         }
 
 
@@ -119,8 +121,8 @@ class RecepcionarLoteRpsSincrono extends RecepcionarLoteRpsBase
             true
         );
         $body = $this->clear($body);
-        $this->validar($versao, $body, $this->schemeFolder, $xsd, '');
-
+        //$this->validar($versao, $body, $this->schemeFolder, $xsd, '');
+        dd($body);
         return $body;
     }
 }
