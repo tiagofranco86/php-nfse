@@ -967,27 +967,22 @@ class Rps extends RpsBase
         ];
     }
 
-    public function addItemDiscriminacao($descricao, $itemServico, $aliquota, $qtde, $valorUnitario, $deducoes = '', $descontoCondicionado = '', $descontoIncondicionado = '')
+    public function addItemDiscriminacao($descricao, $itemServico, $aliquota, $qtde, $valorUnitario, $deducoes = '0.00', $descontoCondicionado = '0.00', $descontoIncondicionado = '0.00')
     {
         $item = [
             'Descricao' => $descricao,
             'itemServico' => $itemServico,
             'aliquota' => $aliquota,
             'Quantidade' => $qtde,
-            'ValorUnitario' => $valorUnitario
+            'ValorUnitario' => $valorUnitario,
+            'Deducoes' => $deducoes,
+            'DescontoCondicionado' => $descontoCondicionado,
+            'DescontoIncondicionado' => $descontoIncondicionado
         ];
 
-        if (!empty($deducoes)) {
-            $item['Deducoes'] = $deducoes;
-        }
-        if (!empty($descontoCondicionado)) {
-            $item['DescontoCondicionado'] = $descontoCondicionado;
-        }
-        if (!empty($descontoIncondicionado)) {
-            $item['DescontoIncondicionado'] = $descontoIncondicionado;
-        }
         $this->infDiscriminacao[] = $item;
     }
+    
     /**
      * Set discrimination of service
      * @param string $value
