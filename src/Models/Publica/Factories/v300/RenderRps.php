@@ -140,6 +140,14 @@ class RenderRps extends RenderRPSBase
         );
         self::$dom->addChild(
             $infRPS,
+            'Competencia',
+            $rps->infCompetencia,
+            true,
+            'Competencia',
+            false
+        );
+        self::$dom->addChild(
+            $infRPS,
             'Status',
             $rps->infStatus,
             true,
