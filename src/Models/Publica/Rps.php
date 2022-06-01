@@ -116,7 +116,7 @@ class Rps extends RpsBase
      */
     public $infDataEmissao;
     /**
-     * @var array
+     * @var string
      */
     public $infCompetencia;
     /**
@@ -387,15 +387,11 @@ class Rps extends RpsBase
 
     /**
      * Set date of issue
-     * @param string $ano
-     * @param string $mes
+     * @param string $competencia
      */
-    public function competencia(string $ano, string $mes)
+    public function competencia(string $competencia)
     {
-        $this->infCompetencia = [
-            'ano' => $ano,
-            'mes' => $mes
-        ];
+        $this->infCompetencia = $competencia;
     }
 
     /**
