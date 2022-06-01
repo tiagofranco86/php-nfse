@@ -906,7 +906,7 @@ class Rps extends RpsBase
         }
 
         $value = trim($value);
-        if (!Validator::stringType()->length(1, 2000)->validate($value)) {
+        if (!Validator::stringType()->length(0, 2000)->validate($value)) {
             throw new \InvalidArgumentException($msg);
         }
         $this->infInformacoesComplementares = $value;
