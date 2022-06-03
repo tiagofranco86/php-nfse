@@ -122,7 +122,7 @@ class RecepcionarLoteRpsSincrono extends RecepcionarLoteRpsSincronoBase
         );
         $body = $this->clear($body);
         //$this->validar($versao, $body, $this->schemeFolder, $xsd, '');
-        dd($body);
+        //dd($body);
         return $body;
     }
 }

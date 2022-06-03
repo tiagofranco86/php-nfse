@@ -21,6 +21,9 @@ class RenderRps extends RenderV3
         self::$algorithm = $algorithm;
         self::$timezone = $timezone;
 
+        if(strlen($data->infCodigoCnae) != 9) {
+            $data->infCodigoCnae = str_pad($data->infCodigoCnae, 9, 0);
+        }
         if (is_object($data)) {
             //Gera a RPS
             $rootNode = self::render($data, $dom, $parent);
