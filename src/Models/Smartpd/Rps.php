@@ -191,37 +191,37 @@ class Rps extends RpsBase
     public $especie;
     
     /**
-     * @var string
+     * @var float
      */
     public $pesoliquido;
     
     /**
-     * @var string
+     * @var float
      */
     public $pesobruto;
     
     /**
-     * @var string
+     * @var float
      */
     public $pis;
     
     /**
-     * @var string
+     * @var float
      */
     public $cofins;
     
     /**
-     * @var string
+     * @var float
      */
     public $csll;
     
     /**
-     * @var string
+     * @var float
      */
     public $irrf;
     
     /**
-     * @var string
+     * @var float
      */
     public $inss;
     
@@ -239,11 +239,6 @@ class Rps extends RpsBase
      * @var string
      */
     public $tributadonomunicipio;
-    
-    /**
-     * @var string
-     */
-    public $numerort;
     
     /**
      * @var string
@@ -499,7 +494,7 @@ class Rps extends RpsBase
             throw new \InvalidArgumentException($msg);
         }
 
-        $this->quantidade = number_format($value, 2, ',', '');
+        $this->quantidade = $value;
     }
 
     /**
@@ -542,7 +537,7 @@ class Rps extends RpsBase
             throw new \InvalidArgumentException($msg);
         }
 
-        $this->pesoliquido = number_format($value, 2, ',', '');
+        $this->pesoliquido = $value;
     }
 
     /**
@@ -563,7 +558,7 @@ class Rps extends RpsBase
             throw new \InvalidArgumentException($msg);
         }
 
-        $this->pesobruto = number_format($value, 2, ',', '');
+        $this->pesobruto = $value;
     }
 
     /**
@@ -584,7 +579,7 @@ class Rps extends RpsBase
             throw new \InvalidArgumentException($msg);
         }
 
-        $this->pis = number_format($value, 2, ',', '');
+        $this->pis = $value;
     }
 
     /**
@@ -605,7 +600,7 @@ class Rps extends RpsBase
             throw new \InvalidArgumentException($msg);
         }
 
-        $this->cofins = number_format($value, 2, ',', '');
+        $this->cofins = $value;
     }
 
     /**
@@ -626,7 +621,7 @@ class Rps extends RpsBase
             throw new \InvalidArgumentException($msg);
         }
 
-        $this->csll = number_format($value, 2, ',', '');
+        $this->csll = $value;
     }
 
     /**
@@ -647,7 +642,7 @@ class Rps extends RpsBase
             throw new \InvalidArgumentException($msg);
         }
 
-        $this->irrf = number_format($value, 2, ',', '');
+        $this->irrf = $value;
     }
 
     /**
@@ -668,7 +663,28 @@ class Rps extends RpsBase
             throw new \InvalidArgumentException($msg);
         }
 
-        $this->inss = number_format($value, 2, ',', '');
+        $this->inss = $value;
+    }
+
+    /**
+     * Set number of descdeducoesconstrucao
+     * @param int $value
+     * @param string $campo - String com o nome do campo caso queira mostrar na mensagem de validação
+     * @throws InvalidArgumentException
+     */
+    public function descdeducoesconstrucao($value, $campo = null)
+    {
+        if (!$campo) {
+            $msg = "Os valores devem ser numericos tipo float.";
+        } else {
+            $msg = "O item '$campo' deve ser numérico tipo float. Informado: '$value'";
+        }
+
+        if (!Validator::numeric()->floatVal()->min(0)->validate($value)) {
+            throw new \InvalidArgumentException($msg);
+        }
+
+        $this->descdeducoesconstrucao = $value;
     }
 
     /**
@@ -689,7 +705,7 @@ class Rps extends RpsBase
             throw new \InvalidArgumentException($msg);
         }
 
-        $this->totaldeducoesconstrucao = number_format($value, 2, ',', '');
+        $this->totaldeducoesconstrucao = $value;
     }
 
     /**

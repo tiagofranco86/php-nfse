@@ -11,7 +11,7 @@ class RecepcionarLoteRps extends Factory
 {
     /**
      * Método usado para gerar o XML do Soap Request
-     * @param $versao 
+     * @param $versao
      * @param $lote
      * @param $rpss
      * @return mixed
@@ -21,7 +21,6 @@ class RecepcionarLoteRps extends Factory
         $lote,
         $rpss
     ) {
-
         $xsd = "entradanfd";
     
         $dom = new Dom('1.0', 'utf-8');
@@ -67,6 +66,7 @@ class RecepcionarLoteRps extends Factory
     
         $rps->dataemissao->setTimezone(self::$timezone);
         $rps->dataemissaort->setTimezone(self::$timezone);
+        $rps->fatorgerador->setTimezone(self::$timezone);
 
         $dom->addChild(
             $nfd,
@@ -337,7 +337,7 @@ class RecepcionarLoteRps extends Factory
             $dom->addChild(
                 $servico,
                 'valorunitario',
-                $servicoInf->valorunitario,
+                number_format($servicoInf->valorunitario, 2, ',', ''),
                 true,
                 'valorunitario',
                 false
@@ -346,7 +346,7 @@ class RecepcionarLoteRps extends Factory
             $dom->addChild(
                 $servico,
                 'aliquota',
-                $servicoInf->aliquota,
+                number_format($servicoInf->aliquota, 2, ',', ''),
                 true,
                 'aliquota',
                 false
@@ -399,8 +399,50 @@ class RecepcionarLoteRps extends Factory
 
         $dom->addChild(
             $nfd,
+            'tipofrete',
+            $rps->tipofrete,
+            true,
+            'tipofrete',
+            false
+        );
+        $dom->addChild(
+            $nfd,
+            'quantidade',
+            $rps->quantidade,
+            false,
+            'quantidade',
+            false
+        );
+        $dom->addChild(
+            $nfd,
+            'especie',
+            $rps->especie,
+            false,
+            'especie',
+            false
+        );
+        $dom->addChild(
+            $nfd,
+            'pesoliquido',
+            number_format($rps->pesoliquido, 2, ',', ''),
+            true,
+            'pesoliquido',
+            false
+        );
+
+        $dom->addChild(
+            $nfd,
+            'pesobruto',
+            number_format($rps->pesobruto, 2, ',', ''),
+            true,
+            'pesobruto',
+            false
+        );
+
+        $dom->addChild(
+            $nfd,
             'pis',
-            $rps->pis,
+            number_format($rps->pis, 2, ',', ''),
             true,
             'pis',
             false
@@ -408,7 +450,7 @@ class RecepcionarLoteRps extends Factory
         $dom->addChild(
             $nfd,
             'cofins',
-            $rps->cofins,
+            number_format($rps->cofins, 2, ',', ''),
             false,
             'cofins',
             false
@@ -416,7 +458,7 @@ class RecepcionarLoteRps extends Factory
         $dom->addChild(
             $nfd,
             'csll',
-            $rps->csll,
+            number_format($rps->csll, 2, ',', ''),
             false,
             'csll',
             false
@@ -424,7 +466,7 @@ class RecepcionarLoteRps extends Factory
         $dom->addChild(
             $nfd,
             'irrf',
-            $rps->irrf,
+            number_format($rps->irrf, 2, ',', ''),
             true,
             'irrf',
             false
@@ -433,17 +475,16 @@ class RecepcionarLoteRps extends Factory
         $dom->addChild(
             $nfd,
             'inss',
-            $rps->inss,
+            number_format($rps->inss, 2, ',', ''),
             true,
             'inss',
             false
         );
         
-
         $dom->addChild(
             $nfd,
             'descdeducoesconstrucao',
-            $rps->descdeducoesconstrucao,
+            number_format($rps->descdeducoesconstrucao, 2, ',', ''),
             false,
             'descdeducoesconstrucao',
             false
@@ -451,8 +492,7 @@ class RecepcionarLoteRps extends Factory
         $dom->addChild(
             $nfd,
             'totaldeducoesconstrucao',
-            $rps->totaldeducoesconstrucao,
-            true,
+            number_format($rps->totaldeducoesconstrucao, 2, ',', ''),
             'totaldeducoesconstrucao',
             false
         );
@@ -502,7 +542,7 @@ class RecepcionarLoteRps extends Factory
                 'fatorgerador',
                 false
             );
-        }        
+        }
         
         return $nfd;
     }
