@@ -1,14 +1,14 @@
 <?php
 
-namespace NFePHP\NFSe\Counties\M5208707;
+namespace NFePHP\NFSe\Counties\M3205002;
 
 /**
  * Classe para a comunicação com os webservices da
- * Cidade de Goiania GO
- * conforme o modelo Goiania
+ * Cidade de Serra ES
+ * conforme o modelo Smartpd
  *
  * @category  NFePHP
- * @package   NFePHP\NFSe\Counties\M5208707\Tools
+ * @package   NFePHP\NFSe\Counties\3205002\Tools
  * @copyright NFePHP Copyright (c) 2016
  * @license   http://www.gnu.org/licenses/lgpl.txt LGPLv3+
  * @license   https://opensource.org/licenses/MIT MIT
@@ -17,7 +17,7 @@ namespace NFePHP\NFSe\Counties\M5208707;
  * @link      http://github.com/nfephp-org/sped-nfse for the canonical source repository
  */
 
-use NFePHP\NFSe\Models\Goiania\Tools as ToolsModel;
+use NFePHP\NFSe\Models\Smartpd\Tools as ToolsModel;
 
 class Tools extends ToolsModel
 {
@@ -27,15 +27,25 @@ class Tools extends ToolsModel
      */
 
     //O ambiente de produção e homologação são o mesmo, onde deve-se solicitar alteração na prefeitura de Goiânia para entrar/sair do modo TESTE
-    protected $url = [
-        1 => 'https://nfse.goiania.go.gov.br/ws/nfse.asmx',
-        2 => 'https://nfse.goiania.go.gov.br/ws/nfse.asmx'
+    protected $urlEntrada = [
+        1 => 'http://apps.serra.es.gov.br:8080/tbw/services/WSEntrada',
+        2 => 'http://apps.serra.es.gov.br:8080/tbw/services/WSEntrada'
+    ];
+
+    protected $urlSaida = [
+        1 => 'http://apps.serra.es.gov.br:8080/tbw/services/WSSaida',
+        2 => 'http://apps.serra.es.gov.br:8080/tbw/services/WSSaida'
+    ];
+
+    protected $urlUtil = [
+        1 => 'http://apps.serra.es.gov.br:8080/tbw/services/WSUtil',
+        2 => 'http://apps.serra.es.gov.br:8080/tbw/services/WSUtil'
     ];
     /**
      * County Namespace
      * @var string
      */
-    protected $xmlns = 'http://nfse.goiania.go.gov.br/xsd/nfse_gyn_v02.xsd';
+    protected $xmlns = 'http://nfse.Smartpd.go.gov.br/xsd/nfse_gyn_v02.xsd';
 
     /**
      * Soap Version
@@ -46,7 +56,7 @@ class Tools extends ToolsModel
      * SIAFI County Cod
      * @var int
      */
-    protected $codcidade = 9373;
+    protected $codcidade = 5699;
     /**
      * Indicates when use CDATA string on message
      * @var boolean
@@ -61,7 +71,7 @@ class Tools extends ToolsModel
      * Version of schemas
      * @var int
      */
-    protected $versao = '02';
+    protected $versao = '01';
     /**
      * namespaces for soap envelope
      * @var array
@@ -69,11 +79,11 @@ class Tools extends ToolsModel
     protected $namespaces = [
         1 => [
             'xmlns:soap' => "http://schemas.xmlsoap.org/soap/envelope/",
-            'xmlns:ws' => "http://nfse.goiania.go.gov.br/ws/"
+            'xmlns:web' => "http://webservices.sil.com/"
         ],
         2 => [
             'xmlns:soap' => "http://www.w3.org/2003/05/soap-envelope",
-            'xmlns:ws' => "http://nfse.goiania.go.gov.br/ws/"
+            'xmlns:web' => "http://webservices.sil.com/"
         ]
     ];
 }

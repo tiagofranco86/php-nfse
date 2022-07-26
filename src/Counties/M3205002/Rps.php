@@ -1,13 +1,14 @@
 <?php
 
-namespace NFePHP\NFSe\Counties\M5208707;
+namespace NFePHP\NFSe\Counties\M3205002;
 
 /**
- * Classe para extração dos dados retornados pelos webservices da
- * Cidade de Goiania GO conforme o modelo Goiania
+ * Classe a construção do xml da NFSe para a
+ * Cidade de Serra ES
+ * conforme o modelo Smartpd
  *
  * @category  NFePHP
- * @package   NFePHP\NFSe\Counties\M5208707\Response
+ * @package   NFePHP\NFSe\Counties\3205002\Rps
  * @copyright NFePHP Copyright (c) 2016
  * @license   http://www.gnu.org/licenses/lgpl.txt LGPLv3+
  * @license   https://opensource.org/licenses/MIT MIT
@@ -16,8 +17,9 @@ namespace NFePHP\NFSe\Counties\M5208707;
  * @link      http://github.com/nfephp-org/sped-nfse for the canonical source repository
  */
 
-use NFePHP\NFSe\Models\Goiania\Response as ResponseModel;
+use NFePHP\NFSe\Models\Abrasf\Rps as RpsModel;
 
-class Response extends ResponseModel
+class Rps extends RpsModel
 {
+
 }

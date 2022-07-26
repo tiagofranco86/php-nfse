@@ -4,8 +4,8 @@ namespace NFePHP\NFSe\Counties\M5208707;
 
 /**
  * Classe a construção do xml da NFSe
- * para a Cidade de Serra ES
- * conforme o modelo Smartpd
+ * para a Cidade de Goiania GO
+ * conforme o modelo Goiania
  *
  * @category  NFePHP
  * @package   NFePHP\NFSe\Counties\M5208707\Convert
@@ -17,7 +17,7 @@ namespace NFePHP\NFSe\Counties\M5208707;
  * @link      http://github.com/nfephp-org/sped-nfse for the canonical source repository
  */
 
-use NFePHP\NFSe\Models\Smartpd\Convert as ConvertModel;
+use NFePHP\NFSe\Models\Goiania\Convert as ConvertModel;
 
 class Convert extends ConvertModel
 {

@@ -4,8 +4,8 @@ namespace NFePHP\NFSe\Counties\M5208707;
 
 /**
  * Classe a construção do xml da NFSe para a
- * Cidade de Serra ES
- * conforme o modelo Smartpd
+ * Cidade de Goiania GO
+ * conforme o modelo Goiania
  *
  * @category  NFePHP
  * @package   NFePHP\NFSe\Counties\M5208707\Rps
