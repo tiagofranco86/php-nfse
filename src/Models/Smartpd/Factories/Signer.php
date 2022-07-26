@@ -1,13 +1,15 @@
 <?php
 
-namespace NFePHP\NFSe\Counties\M5208707;
+namespace NFePHP\NFSe\Models\Smartpd\Factories;
+
+use NFePHP\NFSe\Models\Abrasf\Factories\Signer as SignerBase;
 
 /**
- * Classe para extração dos dados retornados pelos webservices da
- * Cidade de Serra ES conforme o modelo Smartpd
+ * Class to signner a Xml
+ * Meets only for Abrasf
  *
  * @category  NFePHP
- * @package   NFePHP\NFSe\Counties\M5208707\Response
+ * @package   NFePHP\NFSe\Models\Smartpd\Factories\Signer
  * @copyright NFePHP Copyright (c) 2016
  * @license   http://www.gnu.org/licenses/lgpl.txt LGPLv3+
  * @license   https://opensource.org/licenses/MIT MIT
@@ -16,8 +18,8 @@ namespace NFePHP\NFSe\Counties\M5208707;
  * @link      http://github.com/nfephp-org/sped-nfse for the canonical source repository
  */
 
-use NFePHP\NFSe\Models\Smartpd\Response as ResponseModel;
 
-class Response extends ResponseModel
+class Signer extends SignerBase
 {
+   
 }

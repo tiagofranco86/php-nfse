@@ -4,7 +4,7 @@ namespace NFePHP\NFSe\Counties\M5208707;
 
 /**
  * Classe para extração dos dados retornados pelos webservices da
- * Cidade de Serra ES conforme o modelo Smartpd
+ * Cidade de Goiania GO conforme o modelo Goiania
  *
  * @category  NFePHP
  * @package   NFePHP\NFSe\Counties\M5208707\Response
@@ -16,7 +16,7 @@ namespace NFePHP\NFSe\Counties\M5208707;
  * @link      http://github.com/nfephp-org/sped-nfse for the canonical source repository
  */
 
-use NFePHP\NFSe\Models\Smartpd\Response as ResponseModel;
+use NFePHP\NFSe\Models\Goiania\Response as ResponseModel;
 
 class Response extends ResponseModel
 {
