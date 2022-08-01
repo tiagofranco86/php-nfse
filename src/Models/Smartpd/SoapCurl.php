@@ -53,9 +53,12 @@ class SoapCurl extends SoapCurlBase
             $soapheader
         );
         
-        if (!empty($action)) {
-            $parameters[0] .= "action=$action";
-        }
+        $parameters = [
+            'SoapAction: ""',
+            'Content-Type: text/xml; charset=utf-8',
+            "Content-Length: ".strlen($envelope)
+        ];
+
         $this->requestHead = implode("\n", $parameters);
         $this->requestBody = $envelope;
 
@@ -84,12 +87,13 @@ class SoapCurl extends SoapCurlBase
             }
             curl_setopt($oCurl, CURLOPT_RETURNTRANSFER, 1);
             if (!empty($envelope)) {
-                 echo '<pre>'.print_r($envelope).'</pre>';die;
+               echo '<pre>'.print_r($envelope).'</pre>';die;
                 curl_setopt($oCurl, CURLOPT_POST, 1);
                 curl_setopt($oCurl, CURLOPT_POSTFIELDS, $envelope);
                 curl_setopt($oCurl, CURLOPT_HTTPHEADER, $parameters);
             }
             $response = curl_exec($oCurl);
+           dd($response);
             $this->soaperror = curl_error($oCurl);
             $ainfo = curl_getinfo($oCurl);
             if (is_array($ainfo)) {

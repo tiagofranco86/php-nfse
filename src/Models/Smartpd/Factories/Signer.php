@@ -2,7 +2,7 @@
 
 namespace NFePHP\NFSe\Models\Smartpd\Factories;
 
-use NFePHP\NFSe\Models\Abrasf\Factories\Signer as SignerBase;
+use NFePHP\Common\Signer as SignerCommon;
 
 /**
  * Class to signner a Xml
@@ -19,7 +19,7 @@ use NFePHP\NFSe\Models\Abrasf\Factories\Signer as SignerBase;
  */
 
 
-class Signer extends SignerBase
+class Signer extends SignerCommon
 {
    
 }

@@ -10,6 +10,11 @@ use NFePHP\NFSe\Models\Smartpd\Factories\Factory;
 class RecepcionarLoteRps extends Factory
 {
     /**
+     * @var DOMImproved
+     */
+    protected static $dom;
+
+    /**
      * Método usado para gerar o XML do Soap Request
      * @param $versao
      * @param $lote
@@ -21,24 +26,25 @@ class RecepcionarLoteRps extends Factory
         $lote,
         $rpss
     ) {
-        $xsd = "entradanfd";
+        $xsd = "envialote";
     
         $dom = new Dom('1.0', 'utf-8');
         $dom->formatOutput = false;
 
-        $root = $dom->createElement('tbnfd');
+        $tbnfd = $dom->createElement('tbnfd');
+        $dom->appendChild($tbnfd);
 
         foreach ($rpss as $rps) {
-            self::appendRps($rps, $root);
+            self::appendRps($rps, $dom, $tbnfd, $lote);
         }
 
         //Parse para XML
-        $xml = str_replace('<?xml version="1.0" encoding="utf-8"?>', '', $dom->saveXML(), $lote);
+        $xml = str_replace('<?xml version="1.0" encoding="utf-8"?>', '', $dom->saveXML());
 
         $body = Signer::sign(
             $this->certificate,
             $xml,
-            'tbnfd',
+            'nfd',
             '',
             $this->algorithm,
             [false, false, null, null],
@@ -47,11 +53,10 @@ class RecepcionarLoteRps extends Factory
         );
     
         //Parse para XML
-        $body = $dom->saveXML();
         $body = $this->clear($body);
-        $this->validar($versao, $body, $this->schemeFolder, $xsd, '', $this->cmun);
-        #echo '<pre>'.print_r($body).'</pre>';die;
-        return '<?xml version="1.0" encoding="utf-8"?>' . $body;
+        //$this->validar($versao, $body, $this->schemeFolder, $xsd, '', $this->cmun);
+    //echo '<pre>'.print_r($body).'</pre>';die;
+        return '<?xml version="1.0" encoding="UTF-8" ?>' . $body;
     }
 
 
@@ -60,15 +65,14 @@ class RecepcionarLoteRps extends Factory
      * @param Rps $rps
      * @return string
      */
-    protected static function appendRps(Rps $rps, &$dom, $lote)
+    protected static function appendRps(Rps $rps, &$dom, &$tbnfd, $lote)
     {
-        $nfd = $dom->createElement("nfd");
-    
-        $rps->dataemissao->setTimezone(self::$timezone);
-        $rps->dataemissaort->setTimezone(self::$timezone);
-        $rps->fatorgerador->setTimezone(self::$timezone);
-
-        $dom->addChild(
+        self::$dom = $dom;
+        $nfd =  self::$dom->createElement("nfd");
+        
+        $tbnfd->appendChild($nfd);
+      
+        self::$dom->addChild(
             $nfd,
             'numeronfd',
             $rps->numeronfd,
@@ -77,7 +81,7 @@ class RecepcionarLoteRps extends Factory
             false
         );
 
-        $dom->addChild(
+        self::$dom->addChild(
             $nfd,
             'codseriedocumento',
             $rps->codseriedocumento,
@@ -85,26 +89,28 @@ class RecepcionarLoteRps extends Factory
             "Serie do documento",
             false
         );
-        
-        $dom->addChild(
+
+        self::$dom->addChild(
             $nfd,
             'codnaturezaoperacao',
-            $rps->codnaturezaoperacao,
+            //$rps->codnaturezaoperacao,
+            512,
             true,
-            "Código da natureza",
-            false
-        );
-       
-        $dom->addChild(
-            $nfd,
-            'dataemissao',
-            $rps->dataemissao->format('dd/mm/YYYY'),
-            true,
-            'Data de Emissão da nota fiscal',
+            "Serie do documento",
             false
         );
 
-        $dom->addChild(
+        self::$dom->addChild(
+            $nfd,
+            'codigocidade',
+            //$rps->codigocidade,
+            3,
+            true,
+            "Serie do documento",
+            false
+        );
+
+        self::$dom->addChild(
             $nfd,
             'inscricaomunicipalemissor',
             $rps->inscricaomunicipalemissor,
@@ -112,8 +118,17 @@ class RecepcionarLoteRps extends Factory
             'Inscricao Municipal Emissor',
             false
         );
+        
+        self::$dom->addChild(
+            $nfd,
+            'dataemissao',
+            $rps->dataemissao->format('d/m/Y'),
+            true,
+            'Data de Emissão da nota fiscal',
+            false
+        );
 
-        $dom->addChild(
+        self::$dom->addChild(
             $nfd,
             'razaotomador',
             $rps->razaotomador,
@@ -122,7 +137,7 @@ class RecepcionarLoteRps extends Factory
             false
         );
 
-        $dom->addChild(
+        self::$dom->addChild(
             $nfd,
             'nomefantasiatomador',
             $rps->nomefantasiatomador,
@@ -131,115 +146,7 @@ class RecepcionarLoteRps extends Factory
             false
         );
 
-        $dom->addChild(
-            $nfd,
-            'enderecotomador',
-            $rps->enderecotomador,
-            true,
-            'Endereco Tomador',
-            false
-        );
-
-        $dom->addChild(
-            $nfd,
-            'numeroendereco',
-            $rps->numeroendereco,
-            true,
-            'Número Tomador',
-            false
-        );
-
-        $dom->addChild(
-            $nfd,
-            'cidadetomador',
-            $rps->cidadetomador,
-            true,
-            'Cidade Tomador',
-            false
-        );
-
-        $dom->addChild(
-            $nfd,
-            'estadotomador',
-            $rps->estadotomador,
-            true,
-            'Estado Tomador',
-            false
-        );
-
-        $dom->addChild(
-            $nfd,
-            'paistomador',
-            $rps->paistomador,
-            true,
-            'Pais Tomador',
-            false
-        );
-
-        $dom->addChild(
-            $nfd,
-            'fonetomador',
-            $rps->fonetomador,
-            true,
-            'Fone Tomador',
-            false
-        );
-
-        $dom->addChild(
-            $nfd,
-            'faxtomador',
-            $rps->faxtomador,
-            true,
-            'Fax Tomador',
-            false
-        );
-
-        $dom->addChild(
-            $nfd,
-            'ceptomador',
-            $rps->ceptomador,
-            true,
-            'CEP Tomador',
-            false
-        );
-
-        $dom->addChild(
-            $nfd,
-            'bairrotomador',
-            $rps->bairrotomador,
-            true,
-            'Bairro Tomador',
-            false
-        );
-
-        $dom->addChild(
-            $nfd,
-            'bairrotomador',
-            $rps->bairrotomador,
-            true,
-            'Bairro Tomador',
-            false
-        );
-
-        $dom->addChild(
-            $nfd,
-            'emailtomador',
-            $rps->emailtomador,
-            true,
-            'Email Tomador',
-            false
-        );
-
-        $dom->addChild(
-            $nfd,
-            'tppessoa',
-            $rps->tppessoa,
-            true,
-            'Tipo Pessoa Tomador',
-            false
-        );
-
-        $dom->addChild(
+        self::$dom->addChild(
             $nfd,
             'cpfcnpjtomador',
             $rps->cpfcnpjtomador,
@@ -248,7 +155,80 @@ class RecepcionarLoteRps extends Factory
             false
         );
 
-        $dom->addChild(
+        self::$dom->addChild(
+            $nfd,
+            'tppessoa',
+            //$rps->tppessoa,
+            'F',
+            true,
+            'CPF/CNPJ Tomador',
+            false
+        );
+
+        self::$dom->addChild(
+            $nfd,
+            'enderecotomador',
+            $rps->enderecotomador,
+            true,
+            'Endereco Tomador',
+            false
+        );
+        
+        self::$dom->addChild(
+            $nfd,
+            'cidadetomador',
+            $rps->cidadetomador,
+            true,
+            'Cidade Tomador',
+            false
+        );
+
+        self::$dom->addChild(
+            $nfd,
+            'estadotomador',
+            $rps->estadotomador,
+            true,
+            'Estado Tomador',
+            false
+        );
+
+        self::$dom->addChild(
+            $nfd,
+            'paistomador',
+            $rps->paistomador,
+            true,
+            'Pais Tomador',
+            false
+        );
+
+        self::$dom->addChild(
+            $nfd,
+            'ceptomador',
+            $rps->ceptomador,
+            true,
+            'CEP Tomador',
+            false
+        );
+
+        self::$dom->addChild(
+            $nfd,
+            'bairrotomador',
+            $rps->bairrotomador,
+            true,
+            'Bairro Tomador',
+            false
+        );
+
+        self::$dom->addChild(
+            $nfd,
+            'emailtomador',
+            $rps->emailtomador,
+            true,
+            'Email Tomador',
+            false
+        );
+
+        self::$dom->addChild(
             $nfd,
             'inscricaoestadualtomador',
             $rps->inscricaoestadualtomador,
@@ -257,66 +237,69 @@ class RecepcionarLoteRps extends Factory
             false
         );
 
-        $dom->addChild(
+        self::$dom->addChild(
             $nfd,
-            'inscricaomunicipaltomador',
-            $rps->inscricaomunicipaltomador,
+            'fonetomador',
+            $rps->fonetomador,
             true,
-            'IM Tomador',
+            'Fone Tomador',
             false
         );
 
-        /** Faturas **/
-        $tbfatura = $dom->createElement('tbfatura');
+        if (!empty($rps->faturas)) {
+            /** Faturas **/
+            $tbfatura =  self::$dom->createElement('tbfatura');
 
-        foreach ($rps->faturas as $faturaInf) {
-            //fatura
-            $fatura = $dom->createElement('fatura');
-            $dom->addChild(
-                $fatura,
-                'numfatura',
-                $faturaInf->numfatura,
-                true,
-                'numfatura',
-                false
-            );
+            foreach ($rps->faturas as $faturaInf) {
+                //fatura
+                $fatura =  self::$dom->createElement('fatura');
+                self::$dom->addChild(
+                    $fatura,
+                    'numfatura',
+                    $faturaInf->numfatura,
+                    true,
+                    'numfatura',
+                    false
+                );
 
-            $dom->addChild(
-                $fatura,
-                'vencimentofatura',
-                $faturaInf->vencimentofatura->format('mm/dd/YYYY'),
-                true,
-                'vencimentofatura',
-                false
-            );
+                self::$dom->addChild(
+                    $fatura,
+                    'vencimentofatura',
+                    $faturaInf->vencimentofatura->format('d/m/Y'),
+                    true,
+                    'vencimentofatura',
+                    false
+                );
 
-            $dom->addChild(
-                $fatura,
-                'valorfatura',
-                number_format($faturaInf->valorfatura, 2, ',', ''),
-                true,
-                'valorfatura',
-                false
-            );
+                self::$dom->addChild(
+                    $fatura,
+                    'valorfatura',
+                    number_format($faturaInf->valorfatura, 2, ',', ''),
+                    true,
+                    'valorfatura',
+                    false
+                );
 
-            $dom->appChild($tbfatura, $fatura, 'Adicionando tag fatura em tbfatura');
+                $dom->appChild($tbfatura, $fatura, 'Adicionando tag fatura em tbfatura');
+                $nfd->appendChild($tbfatura);
+            }
         }
         /** Serviços **/
-        $tbservico = $dom->createElement('tbservico');
+        $tbservico =  self::$dom->createElement('tbservico');
 
         foreach ($rps->servicos as $servicoInf) {
             //servico
-            $servico = $dom->createElement('servico');
-            $dom->addChild(
+            $servico =  self::$dom->createElement('servico');
+            self::$dom->addChild(
                 $servico,
                 'quantidade',
-                $servicoInf->quantidade,
+                1,
                 true,
                 'quantidade',
                 false
             );
 
-            $dom->addChild(
+            self::$dom->addChild(
                 $servico,
                 'descricao',
                 $servicoInf->descricao,
@@ -325,7 +308,7 @@ class RecepcionarLoteRps extends Factory
                 false
             );
 
-            $dom->addChild(
+            self::$dom->addChild(
                 $servico,
                 'codatividade',
                 $servicoInf->codatividade,
@@ -334,16 +317,16 @@ class RecepcionarLoteRps extends Factory
                 false
             );
 
-            $dom->addChild(
+            self::$dom->addChild(
                 $servico,
                 'valorunitario',
-                number_format($servicoInf->valorunitario, 2, ',', ''),
+                5,
                 true,
-                'valorunitario',
+                'valorunit,ario',
                 false
             );
 
-            $dom->addChild(
+            self::$dom->addChild(
                 $servico,
                 'aliquota',
                 number_format($servicoInf->aliquota, 2, ',', ''),
@@ -352,10 +335,10 @@ class RecepcionarLoteRps extends Factory
                 false
             );
 
-            $dom->addChild(
+            self::$dom->addChild(
                 $servico,
                 'impostoretido',
-                $servicoInf->impostoretido,
+                'false',
                 true,
                 'impostoretido',
                 false
@@ -364,140 +347,63 @@ class RecepcionarLoteRps extends Factory
             $dom->appChild($tbservico, $servico, 'Adicionando tag servico em tbservico');
         }
         
-        $dom->addChild(
+        $nfd->appendChild($tbservico);
+        
+        self::$dom->addChild(
             $nfd,
             'observacao',
-            $rps->observacao,
+            "teste",
             true,
             'observacao',
             false
         );
-        $dom->addChild(
-            $nfd,
-            'razaotransportadora',
-            $rps->razaotransportadora,
-            false,
-            'razaotransportadora',
-            false
-        );
-        $dom->addChild(
-            $nfd,
-            'cpfcnpjtransportadora',
-            $rps->cpfcnpjtransportadora,
-            false,
-            'cpfcnpjtransportadora',
-            false
-        );
-        $dom->addChild(
-            $nfd,
-            'enderecotransportadora',
-            $rps->enderecotransportadora,
-            true,
-            'enderecotransportadora',
-            false
-        );
+        
+        
 
-        $dom->addChild(
-            $nfd,
-            'tipofrete',
-            $rps->tipofrete,
-            true,
-            'tipofrete',
-            false
-        );
-        $dom->addChild(
-            $nfd,
-            'quantidade',
-            $rps->quantidade,
-            false,
-            'quantidade',
-            false
-        );
-        $dom->addChild(
-            $nfd,
-            'especie',
-            $rps->especie,
-            false,
-            'especie',
-            false
-        );
-        $dom->addChild(
-            $nfd,
-            'pesoliquido',
-            number_format($rps->pesoliquido, 2, ',', ''),
-            true,
-            'pesoliquido',
-            false
-        );
-
-        $dom->addChild(
-            $nfd,
-            'pesobruto',
-            number_format($rps->pesobruto, 2, ',', ''),
-            true,
-            'pesobruto',
-            false
-        );
-
-        $dom->addChild(
+        self::$dom->addChild(
             $nfd,
             'pis',
-            number_format($rps->pis, 2, ',', ''),
+            number_format($rps->pis, 2, '.', ''),
             true,
             'pis',
             false
         );
-        $dom->addChild(
+        self::$dom->addChild(
             $nfd,
             'cofins',
-            number_format($rps->cofins, 2, ',', ''),
+            number_format($rps->cofins, 2, '.', ''),
             false,
             'cofins',
             false
         );
-        $dom->addChild(
+        self::$dom->addChild(
             $nfd,
             'csll',
-            number_format($rps->csll, 2, ',', ''),
+            number_format($rps->csll, 2, '.', ''),
             false,
             'csll',
             false
         );
-        $dom->addChild(
+        self::$dom->addChild(
             $nfd,
             'irrf',
-            number_format($rps->irrf, 2, ',', ''),
+            number_format($rps->irrf, 2, '.', ''),
             true,
             'irrf',
             false
         );
 
-        $dom->addChild(
+        self::$dom->addChild(
             $nfd,
             'inss',
-            number_format($rps->inss, 2, ',', ''),
+            number_format($rps->inss, 2, '.', ''),
             true,
             'inss',
             false
         );
         
-        $dom->addChild(
-            $nfd,
-            'descdeducoesconstrucao',
-            number_format($rps->descdeducoesconstrucao, 2, ',', ''),
-            false,
-            'descdeducoesconstrucao',
-            false
-        );
-        $dom->addChild(
-            $nfd,
-            'totaldeducoesconstrucao',
-            number_format($rps->totaldeducoesconstrucao, 2, ',', ''),
-            'totaldeducoesconstrucao',
-            false
-        );
 
-        $dom->addChild(
+        self::$dom->addChild(
             $nfd,
             'tributadonomunicipio',
             $rps->tributadonomunicipio,
@@ -506,7 +412,7 @@ class RecepcionarLoteRps extends Factory
             false
         );
 
-        $dom->addChild(
+        self::$dom->addChild(
             $nfd,
             'numerort',
             $lote,
@@ -516,7 +422,7 @@ class RecepcionarLoteRps extends Factory
         );
         
 
-        $dom->addChild(
+        self::$dom->addChild(
             $nfd,
             'codigoseriert',
             $rps->codigoseriert,
@@ -524,17 +430,17 @@ class RecepcionarLoteRps extends Factory
             'codigoseriert',
             false
         );
-        $dom->addChild(
+        self::$dom->addChild(
             $nfd,
             'dataemissaort',
-            $rps->dataemissaort,
+            $rps->dataemissaort->format('d/m/Y'),
             true,
             'dataemissaort',
             false
         );
 
         if (!empty($rps->fatorgerador)) {
-            $dom->addChild(
+            self::$dom->addChild(
                 $nfd,
                 'fatorgerador',
                 $rps->fatorgerador,

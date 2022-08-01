@@ -16,6 +16,7 @@ namespace NFePHP\NFSe\Models\Smartpd;
  * @author    Roberto L. Machado <linux.rlm at gmail dot com>
  * @link      http://github.com/nfephp-org/sped-nfse for the canonical source repository
  */
+use Respect\Validation\Validator;
 use NFePHP\NFSe\Common\Rps as RpsBase;
 
 class Rps extends RpsBase
@@ -189,7 +190,10 @@ class Rps extends RpsBase
      * @var string
      */
     public $especie;
-    
+    /**
+     * @var string
+     */
+    public $tppessoa;
     /**
      * @var float
      */
@@ -375,7 +379,7 @@ class Rps extends RpsBase
      */
     public function addservico(\StdClass $servico)
     {
-        $this->servico[] = $servico;
+        $this->servicos[] = $servico;
     }
 
     /**
@@ -384,9 +388,316 @@ class Rps extends RpsBase
      */
     public function addfatura(\StdClass $fatura)
     {
-        $this->fatura[] = $fatura;
+        $this->faturas[] = $fatura;
     }
 
+    /**
+     * Set number of razaotomador
+     * @param int $value
+     * @param string $campo - String com o nome do campo caso queira mostrar na mensagem de validação
+     * @throws InvalidArgumentException
+     */
+    public function razaotomador($value, $campo = null)
+    {
+        if (!$campo) {
+            $msg = "A razaotomador não pode ser vazia e deve ter até 150 caracteres.";
+        } else {
+            $msg = "O item '$campo' não pode ser vazio e deve ter até 150 caracteres. Informado: '$value'";
+        }
+
+        $value = trim($value);
+        if (!Validator::stringType()->length(1, 150)->validate($value)) {
+            throw new \InvalidArgumentException($msg);
+        }
+
+        $this->razaotomador = $value;
+    }
+
+    /**
+     * Set number of nomefantasiatomador
+     * @param int $value
+     * @param string $campo - String com o nome do campo caso queira mostrar na mensagem de validação
+     * @throws InvalidArgumentException
+     */
+    public function nomefantasiatomador($value, $campo = null)
+    {
+        if (!$campo) {
+            $msg = "A nomefantasiatomador não pode ser vazia e deve ter até 150 caracteres.";
+        } else {
+            $msg = "O item '$campo' não pode ser vazio e deve ter até 150 caracteres. Informado: '$value'";
+        }
+
+        $value = trim($value);
+        if (!Validator::stringType()->length(1, 150)->validate($value)) {
+            throw new \InvalidArgumentException($msg);
+        }
+
+        $this->nomefantasiatomador = $value;
+    }
+
+    /**
+     * Set number of enderecotomador
+     * @param int $value
+     * @param string $campo - String com o nome do campo caso queira mostrar na mensagem de validação
+     * @throws InvalidArgumentException
+     */
+    public function enderecotomador($value, $campo = null)
+    {
+        if (!$campo) {
+            $msg = "A enderecotomador não pode ser vazia e deve ter até 255 caracteres.";
+        } else {
+            $msg = "O item '$campo' não pode ser vazio e deve ter até 255 caracteres. Informado: '$value'";
+        }
+
+        $value = trim($value);
+        if (!Validator::stringType()->length(1, 255)->validate($value)) {
+            throw new \InvalidArgumentException($msg);
+        }
+
+        $this->enderecotomador = $value;
+    }
+
+    /**
+     * Set number of cidadetomador
+     * @param int $value
+     * @param string $campo - String com o nome do campo caso queira mostrar na mensagem de validação
+     * @throws InvalidArgumentException
+     */
+    public function cidadetomador($value, $campo = null)
+    {
+        if (!$campo) {
+            $msg = "A cidadetomador não pode ser vazia e deve ter até 60 caracteres.";
+        } else {
+            $msg = "O item '$campo' não pode ser vazio e deve ter até 60 caracteres. Informado: '$value'";
+        }
+
+        $value = trim($value);
+        if (!Validator::stringType()->length(1, 60)->validate($value)) {
+            throw new \InvalidArgumentException($msg);
+        }
+
+        $this->cidadetomador = $value;
+    }
+
+    /**
+     * Set number of estadotomador
+     * @param int $value
+     * @param string $campo - String com o nome do campo caso queira mostrar na mensagem de validação
+     * @throws InvalidArgumentException
+     */
+    public function estadotomador($value, $campo = null)
+    {
+        if (!$campo) {
+            $msg = "A estadotomador não pode ser vazia e deve ter até 2 caracteres.";
+        } else {
+            $msg = "O item '$campo' não pode ser vazio e deve ter até 2 caracteres. Informado: '$value'";
+        }
+
+        $value = trim($value);
+        if (!Validator::stringType()->length(2, 2)->validate($value)) {
+            throw new \InvalidArgumentException($msg);
+        }
+
+        $this->estadotomador = $value;
+    }
+
+    /**
+     * Set number of paistomador
+     * @param int $value
+     * @param string $campo - String com o nome do campo caso queira mostrar na mensagem de validação
+     * @throws InvalidArgumentException
+     */
+    public function paistomador($value, $campo = null)
+    {
+        if (!$campo) {
+            $msg = "A paistomador não pode ser vazia e deve ter até 60 caracteres.";
+        } else {
+            $msg = "O item '$campo' não pode ser vazio e deve ter até 60 caracteres. Informado: '$value'";
+        }
+
+        $value = trim($value);
+        if (!Validator::stringType()->length(1, 60)->validate($value)) {
+            throw new \InvalidArgumentException($msg);
+        }
+
+        $this->paistomador = $value;
+    }
+
+    /**
+     * Set number of fonetomador
+     * @param int $value
+     * @param string $campo - String com o nome do campo caso queira mostrar na mensagem de validação
+     * @throws InvalidArgumentException
+     */
+    public function fonetomador($value, $campo = null)
+    {
+        if (!$campo) {
+            $msg = "A fonetomador não pode ser vazia e deve ter até 30 caracteres.";
+        } else {
+            $msg = "O item '$campo' não pode ser vazio e deve ter até 30 caracteres. Informado: '$value'";
+        }
+
+        $value = trim($value);
+        if (!Validator::stringType()->length(1, 30)->validate($value)) {
+            throw new \InvalidArgumentException($msg);
+        }
+
+        $this->fonetomador = $value;
+    }
+
+    /**
+     * Set number of faxtomador
+     * @param int $value
+     * @param string $campo - String com o nome do campo caso queira mostrar na mensagem de validação
+     * @throws InvalidArgumentException
+     */
+    public function faxtomador($value, $campo = null)
+    {
+        if (!$campo) {
+            $msg = "A faxtomador deve ter até 20 caracteres.";
+        } else {
+            $msg = "O item '$campo' deve ter até 20 caracteres. Informado: '$value'";
+        }
+
+        $value = trim($value);
+        if (!empty($value) && !Validator::stringType()->length(1, 20)->validate($value)) {
+            throw new \InvalidArgumentException($msg);
+        }
+
+        $this->faxtomador = $value;
+    }
+
+    /**
+     * Set number of ceptomador
+     * @param int $value
+     * @param string $campo - String com o nome do campo caso queira mostrar na mensagem de validação
+     * @throws InvalidArgumentException
+     */
+    public function ceptomador($value, $campo = null)
+    {
+        if (!$campo) {
+            $msg = "A ceptomador não pode ser vazia e deve ter até 10 caracteres.";
+        } else {
+            $msg = "O item '$campo' não pode ser vazio e deve ter até 10 caracteres. Informado: '$value'";
+        }
+
+        $value = trim($value);
+        if (!Validator::stringType()->length(1, 10)->validate($value)) {
+            throw new \InvalidArgumentException($msg);
+        }
+
+        $this->ceptomador = $value;
+    }
+
+    /**
+     * Set number of bairrotomador
+     * @param int $value
+     * @param string $campo - String com o nome do campo caso queira mostrar na mensagem de validação
+     * @throws InvalidArgumentException
+     */
+    public function bairrotomador($value, $campo = null)
+    {
+        if (!$campo) {
+            $msg = "A bairrotomador não pode ser vazia e deve ter até 60 caracteres.";
+        } else {
+            $msg = "O item '$campo' não pode ser vazio e deve ter até 60 caracteres. Informado: '$value'";
+        }
+
+        $value = trim($value);
+        if (!Validator::stringType()->length(1, 60)->validate($value)) {
+            throw new \InvalidArgumentException($msg);
+        }
+
+        $this->bairrotomador = $value;
+    }
+
+    /**
+     * Set number of emailtomador
+     * @param int $value
+     * @param string $campo - String com o nome do campo caso queira mostrar na mensagem de validação
+     * @throws InvalidArgumentException
+     */
+    public function emailtomador($value, $campo = null)
+    {
+        if (!$campo) {
+            $msg = "A emailtomador não pode ser vazia e deve ter até 255 caracteres.";
+        } else {
+            $msg = "O item '$campo' não pode ser vazio e deve ter até 255 caracteres. Informado: '$value'";
+        }
+
+        $value = trim($value);
+        if (!Validator::stringType()->length(1, 255)->validate($value)) {
+            throw new \InvalidArgumentException($msg);
+        }
+
+        $this->emailtomador = $value;
+    }
+
+    /**
+     * Set number of cpfcnpjtomador
+     * @param int $value
+     * @param string $campo - String com o nome do campo caso queira mostrar na mensagem de validação
+     * @throws InvalidArgumentException
+     */
+    public function cpfcnpjtomador($value, $campo = null)
+    {
+        if (!$campo) {
+            $msg = "A cpfcnpjtomador não pode ser vazia e deve ter até 18 caracteres.";
+        } else {
+            $msg = "O item '$campo' não pode ser vazio e deve ter até 18 caracteres. Informado: '$value'";
+        }
+
+        $value = trim($value);
+        if (!Validator::stringType()->length(1, 18)->validate($value)) {
+            throw new \InvalidArgumentException($msg);
+        }
+
+        $this->cpfcnpjtomador = $value;
+    }
+
+    /**
+     * Set number of inscricaoestadualtomador
+     * @param int $value
+     * @param string $campo - String com o nome do campo caso queira mostrar na mensagem de validação
+     * @throws InvalidArgumentException
+     */
+    public function inscricaoestadualtomador($value, $campo = null)
+    {
+        if (!$campo) {
+            $msg = "A inscricaoestadualtomador não pode ser vazia e deve ter até 25 caracteres.";
+        } else {
+            $msg = "O item '$campo' não pode ser vazio e deve ter até 25 caracteres. Informado: '$value'";
+        }
+
+        $value = trim($value);
+        if (!empty($value) && !Validator::stringType()->length(1, 25)->validate($value)) {
+            throw new \InvalidArgumentException($msg);
+        }
+
+        $this->inscricaoestadualtomador = $value;
+    }
+
+    /**
+     * Set number of inscricaomunicipaltomador
+     * @param int $value
+     * @param string $campo - String com o nome do campo caso queira mostrar na mensagem de validação
+     * @throws InvalidArgumentException
+     */
+    public function inscricaomunicipaltomador($value, $campo = null)
+    {
+        if (!$campo) {
+            $msg = "A inscricaomunicipaltomador não pode ser vazia e deve ter até 20 caracteres.";
+        } else {
+            $msg = "O item '$campo' não pode ser vazio e deve ter até 20 caracteres. Informado: '$value'";
+        }
+
+        $value = trim($value);
+        if (!empty($value) && !Validator::stringType()->length(1, 20)->validate($value)) {
+            throw new \InvalidArgumentException($msg);
+        }
+
+        $this->inscricaomunicipaltomador = $value;
+    }
 
     /**
      * Set number of razaotransportadora
@@ -403,11 +714,11 @@ class Rps extends RpsBase
         }
 
         $value = trim($value);
-        if (!Validator::stringType()->length(1, 150)->validate($value)) {
+        if (!empty($value) && !Validator::stringType()->length(1, 150)->validate($value)) {
             throw new \InvalidArgumentException($msg);
         }
 
-        $this->codnaturezaoperacao = $value;
+        $this->razaotransportadora = $value;
     }
 
     /**
@@ -425,11 +736,77 @@ class Rps extends RpsBase
         }
 
         $value = trim($value);
-        if (!Validator::stringType()->length(1, 20)->validate($value)) {
+        if (!empty($value) && !Validator::stringType()->length(1, 20)->validate($value)) {
             throw new \InvalidArgumentException($msg);
         }
 
-        $this->codnaturezaoperacao = $value;
+        $this->cpfcnpjtransportadora = $value;
+    }
+
+    /**
+     * Set number of numeroendereco
+     * @param int $value
+     * @param string $campo - String com o nome do campo caso queira mostrar na mensagem de validação
+     * @throws InvalidArgumentException
+     */
+    public function numeroendereco($value, $campo = null)
+    {
+        if (!$campo) {
+            $msg = "A numeroendereco não pode ser vazia e deve ter até 10 caracteres.";
+        } else {
+            $msg = "O item '$campo' não pode ser vazio e deve ter até 10 caracteres. Informado: '$value'";
+        }
+
+        $value = trim($value);
+        if (!Validator::stringType()->length(1, 10)->validate($value)) {
+            throw new \InvalidArgumentException($msg);
+        }
+
+        $this->numeroendereco = $value;
+    }
+
+    /**
+     * Set number of tppessoa
+     * @param int $value
+     * @param string $campo - String com o nome do campo caso queira mostrar na mensagem de validação
+     * @throws InvalidArgumentException
+     */
+    public function tppessoa($value, $campo = null)
+    {
+        if (!$campo) {
+            $msg = "A tppessoa não pode ser vazia e deve ter até 1 caracteres.";
+        } else {
+            $msg = "O item '$campo' não pode ser vazio e deve ter até 1 caracteres. Informado: '$value'";
+        }
+
+        $value = trim($value);
+        if (!Validator::stringType()->length(1, 1)->validate($value)) {
+            throw new \InvalidArgumentException($msg);
+        }
+
+        $this->tppessoa = $value;
+    }
+
+    /**
+     * Set number of observacao
+     * @param int $value
+     * @param string $campo - String com o nome do campo caso queira mostrar na mensagem de validação
+     * @throws InvalidArgumentException
+     */
+    public function observacao($value, $campo = null)
+    {
+        if (!$campo) {
+            $msg = "A observacao não pode ser vazia e deve ter até 20 caracteres.";
+        } else {
+            $msg = "O item '$campo' não pode ser vazio e deve ter até 20 caracteres. Informado: '$value'";
+        }
+
+        $value = trim($value);
+        if (!empty($value) && !Validator::stringType()->length(1, 20)->validate($value)) {
+            throw new \InvalidArgumentException($msg);
+        }
+
+        $this->observacao = $value;
     }
 
     /**
@@ -447,7 +824,7 @@ class Rps extends RpsBase
         }
 
         $value = trim($value);
-        if (!Validator::stringType()->length(1, 255)->validate($value)) {
+        if (!empty($value) && !Validator::stringType()->length(1, 255)->validate($value)) {
             throw new \InvalidArgumentException($msg);
         }
 
@@ -680,7 +1057,7 @@ class Rps extends RpsBase
             $msg = "O item '$campo' deve ser numérico tipo float. Informado: '$value'";
         }
 
-        if (!Validator::numeric()->floatVal()->min(0)->validate($value)) {
+        if (!empty($value) && !Validator::numeric()->floatVal()->min(0)->validate($value)) {
             throw new \InvalidArgumentException($msg);
         }
 
@@ -701,7 +1078,7 @@ class Rps extends RpsBase
             $msg = "O item '$campo' deve ser numérico tipo float. Informado: '$value'";
         }
 
-        if (!Validator::numeric()->floatVal()->min(0)->validate($value)) {
+        if (!empty($value) && !Validator::numeric()->floatVal()->min(0)->validate($value)) {
             throw new \InvalidArgumentException($msg);
         }
 
@@ -723,7 +1100,7 @@ class Rps extends RpsBase
         }
 
         if (!Validator::numeric()->intVal()->positive()->validate($value)) {
-            throw new \InvalidArgumentException($msg);
+           // throw new \InvalidArgumentException($msg);
         }
 
         $this->tributadonomunicipio = $value;
