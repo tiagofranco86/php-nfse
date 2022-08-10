@@ -51,7 +51,7 @@ class Tools extends ToolsModel
      * Soap Version
      * @var int
      */
-    protected $soapversion = SOAP_1_2;
+    protected $soapversion = SOAP_1_1;
     /**
      * SIAFI County Cod
      * @var int
@@ -71,18 +71,18 @@ class Tools extends ToolsModel
      * Version of schemas
      * @var int
      */
-    protected $versao = '01';
+    protected $versao = '100';
     /**
      * namespaces for soap envelope
      * @var array
      */
     protected $namespaces = [
         1 => [
-            'xmlns:soap' => "http://schemas.xmlsoap.org/soap/envelope/",
+            'xmlns:soapenv' => "http://schemas.xmlsoap.org/soap/envelope/",
             'xmlns:web' => "http://webservices.sil.com/"
         ],
         2 => [
-            'xmlns:soap' => "http://www.w3.org/2003/05/soap-envelope",
+            'xmlns:soapenv' => "http://www.w3.org/2003/05/soap-envelope",
             'xmlns:web' => "http://webservices.sil.com/"
         ]
     ];
