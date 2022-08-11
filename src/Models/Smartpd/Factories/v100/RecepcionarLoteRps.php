@@ -51,14 +51,9 @@ class RecepcionarLoteRps extends Factory
             '',
             true
         );
-    
-        //Parse para XML
         $body = $this->clear($body);
-    
-        //Parse para XML
-        $body = $this->clear($xml);
         #$this->validar($versao, $body, $this->schemeFolder, $xsd, '', $this->cmun);
-        #echo '<pre>'.print_r($body).'</pre>';die;
+        echo '<pre>'.print_r($body).'</pre>';die;
         return '<?xml version="1.0" encoding="UTF-8" ?>' . $body;
     }
 
