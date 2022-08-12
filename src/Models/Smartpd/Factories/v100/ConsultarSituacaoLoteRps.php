@@ -2,7 +2,6 @@
 
 namespace NFePHP\NFSe\Models\Smartpd\Factories\v100;
 
-use NFePHP\Common\DOMImproved as Dom;
 use NFePHP\NFSe\Models\Smartpd\Factories\Factory;
 
 class ConsultarSituacaoLoteRps extends Factory
@@ -19,30 +18,6 @@ class ConsultarSituacaoLoteRps extends Factory
         $im,
         $protocolo
     ) {
-        $dom = new Dom('1.0', 'utf-8');
-       
-        //Adiciona o Cnpj na tag Prestador
-        $dom->addChild(
-            $dom,
-            'inscricaoMunicipal',
-            $im,
-            true,
-            "Inscricao Municipal",
-            true
-        );
-        // //Adiciona a Inscrição Municipal na tag Prestador
-        $dom->addChild(
-            $dom,
-            'recibo',
-            $protocolo,
-            true,
-            "recibo",
-            true
-        );
-
-        //Parse para XML
-        $body = $dom->saveXML();
-        $body = $this->clear($body);
-        return $body;
+        return "<inscricaoMunicipal>$im</inscricaoMunicipal><recibo>&lt;recibo&gt;&lt;codrecibo&gt;$protocolo&lt;/codrecibo&gt;&lt;/recibo&gt;</recibo>";
     }
 }

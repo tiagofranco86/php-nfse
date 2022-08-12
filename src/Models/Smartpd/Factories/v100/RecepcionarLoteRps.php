@@ -27,7 +27,7 @@ class RecepcionarLoteRps extends Factory
         $rpss
     ) {
         $xsd = "envialote";
-    
+
         $dom = new Dom('1.0', 'utf-8');
         $dom->formatOutput = false;
 
@@ -44,7 +44,7 @@ class RecepcionarLoteRps extends Factory
         $body = Signer::sign(
             $this->certificate,
             $xml,
-            'nfd',
+            'tbnfd',
             '',
             $this->algorithm,
             [false, false, null, null],
@@ -53,8 +53,8 @@ class RecepcionarLoteRps extends Factory
         );
         $body = $this->clear($body);
         #$this->validar($versao, $body, $this->schemeFolder, $xsd, '', $this->cmun);
-        echo '<pre>'.print_r($body).'</pre>';die;
-        return '<?xml version="1.0" encoding="UTF-8" ?>' . $body;
+        #echo '<pre>'.print_r($body).'</pre>';die;
+        return '<codigoMunicipio>3</codigoMunicipio><nfd><![CDATA[<?xml version="1.0" encoding="utf-8"?>' . $body . ']]></nfd>';
     }
 
 
@@ -67,9 +67,9 @@ class RecepcionarLoteRps extends Factory
     {
         self::$dom = $dom;
         $nfd =  self::$dom->createElement("nfd");
-        
+
         $tbnfd->appendChild($nfd);
-      
+
         self::$dom->addChild(
             $nfd,
             'numeronfd',
@@ -91,8 +91,7 @@ class RecepcionarLoteRps extends Factory
         self::$dom->addChild(
             $nfd,
             'codnaturezaoperacao',
-            //$rps->codnaturezaoperacao,
-            512,
+            $rps->codnaturezaoperacao,            
             true,
             "Serie do documento",
             false
@@ -116,7 +115,7 @@ class RecepcionarLoteRps extends Factory
             'Inscricao Municipal Emissor',
             false
         );
-        
+
         self::$dom->addChild(
             $nfd,
             'dataemissao',
@@ -143,7 +142,7 @@ class RecepcionarLoteRps extends Factory
             'Nome fantasia Tomador',
             false
         );
-        
+
         self::$dom->addChild(
             $nfd,
             'enderecotomador',
@@ -152,7 +151,7 @@ class RecepcionarLoteRps extends Factory
             'Endereco Tomador',
             false
         );
-        
+
         self::$dom->addChild(
             $nfd,
             'cidadetomador',
@@ -179,7 +178,7 @@ class RecepcionarLoteRps extends Factory
             'Pais Tomador',
             false
         );
-    
+
         self::$dom->addChild(
             $nfd,
             'fonetomador',
@@ -308,7 +307,7 @@ class RecepcionarLoteRps extends Factory
             self::$dom->addChild(
                 $servico,
                 'quantidade',
-                1,
+                $servicoInf->quantidade,
                 true,
                 'quantidade',
                 false
@@ -335,7 +334,7 @@ class RecepcionarLoteRps extends Factory
             self::$dom->addChild(
                 $servico,
                 'valorunitario',
-                5,
+                $servicoInf->valorunitario,
                 true,
                 'valorunit,ario',
                 false
@@ -353,7 +352,7 @@ class RecepcionarLoteRps extends Factory
             self::$dom->addChild(
                 $servico,
                 'impostoretido',
-                'f',
+                $servicoInf->impostoretido,
                 true,
                 'impostoretido',
                 false
@@ -361,10 +360,10 @@ class RecepcionarLoteRps extends Factory
 
             $dom->appChild($tbservico, $servico, 'Adicionando tag servico em tbservico');
         }
-        
+
         $nfd->appendChild($tbservico);
-        
-        
+
+
         self::$dom->addChild(
             $nfd,
             'razaotransportadora',
@@ -373,7 +372,7 @@ class RecepcionarLoteRps extends Factory
             'pis',
             false
         );
-        
+
         self::$dom->addChild(
             $nfd,
             'cpfcnpjtransportadora',
@@ -382,7 +381,7 @@ class RecepcionarLoteRps extends Factory
             'pis',
             false
         );
-        
+
         self::$dom->addChild(
             $nfd,
             'enderecotransportadora',
@@ -404,26 +403,28 @@ class RecepcionarLoteRps extends Factory
         self::$dom->addChild(
             $nfd,
             'quantidade',
-            '1',
+            $rps->quantidade,
             true,
             'pis',
             false
         );
 
-        
+
         self::$dom->addChild(
             $nfd,
             'especie',
+            //$rps->especie,
             '',
             true,
             'pis',
             false
-        ); 
-        
+        );
+
         self::$dom->addChild(
             $nfd,
             'pesoliquido',
-            number_format($rps->pis, 2, ',', ''),
+            //number_format($rps->pis, 2, ',', ''),
+            "",
             true,
             'pis',
             false
@@ -432,12 +433,13 @@ class RecepcionarLoteRps extends Factory
         self::$dom->addChild(
             $nfd,
             'pesobruto',
-            number_format($rps->pis, 2, ',', ''),
+            //number_format($rps->pis, 2, ',', ''),
+            "",
             true,
             'pis',
             false
         );
-        
+
 
         self::$dom->addChild(
             $nfd,
@@ -480,25 +482,27 @@ class RecepcionarLoteRps extends Factory
             'inss',
             false
         );
-        
+
         self::$dom->addChild(
             $nfd,
             'descdeducoesconstrucao',
-            $rps->descdeducoesconstrucao,
+            //number_format($rps->descdeducoesconstrucao, 2, ',', ''),
+            "",
             true,
             'tributadonomunicipio',
             false
         );
-        
+
         self::$dom->addChild(
             $nfd,
             'totaldeducoesconstrucao',
-            number_format($rps->totaldeducoesconstrucao, 2, ',', ''),
+            //number_format($rps->totaldeducoesconstrucao, 2, ',', ''),
+            "",
             true,
             'tributadonomunicipio',
             false
         );
-        
+
         self::$dom->addChild(
             $nfd,
             'tributadonomunicipio',
@@ -516,7 +520,7 @@ class RecepcionarLoteRps extends Factory
             'Número do lote',
             false
         );
-        
+
 
         self::$dom->addChild(
             $nfd,
@@ -545,7 +549,7 @@ class RecepcionarLoteRps extends Factory
                 false
             );
         }
-        
+
         return $nfd;
     }
 }

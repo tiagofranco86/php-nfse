@@ -3,6 +3,7 @@
 namespace NFePHP\NFSe\Models\Smartpd\Factories\v100;
 
 use NFePHP\Common\DOMImproved as Dom;
+use NFePHP\NFSe\Models\Smartpd\Factories\Signer;
 use NFePHP\NFSe\Models\Smartpd\Factories\Factory;
 
 class CancelarNfse extends Factory
@@ -22,22 +23,18 @@ class CancelarNfse extends Factory
         $motivocancelamento,
         $inscricaoMunicipal,
         $nfseNumero
-    ) {        
+    ) {
         $xsd = "cancelanfd";
-
 
         $dom = new Dom('1.0', 'utf-8');
         $dom->formatOutput = false;
-        //Cria o elemento pai
-        $root = $dom->createElement('CancelarNfseEnvio');
-        //$root->setAttribute('xmlns', $this->xmlns);
 
-        //Adiciona as tags ao DOM
-        $dom->appendChild($root);
+        $tbnfd = $dom->createElement('tbnfd');
+        $dom->appendChild($tbnfd);
 
         $nfd = $dom->createElement('nfd');
-
-        $dom->appChild($root, $nfd, 'Adicionando tag Pedido');      
+        //Adiciona as tags ao DOM
+        $tbnfd->appendChild($nfd);
 
         /* Inscrição Municipal */
         $dom->addChild(
@@ -80,10 +77,21 @@ class CancelarNfse extends Factory
         );
 
         //Parse para XML
-        $body = $dom->saveXML();
-        $body = $this->clear($body);
-        $this->validar($versao, $body, $this->schemeFolder, $xsd, '');
+        $xml = str_replace('<?xml version="1.0" encoding="utf-8"?>', '', $dom->saveXML());
 
-        return '<?xml version="1.0" encoding="utf-8"?>' . $body;
+        $body = Signer::sign(
+            $this->certificate,
+            $xml,
+            'tbnfd',
+            '',
+            $this->algorithm,
+            [false, false, null, null],
+            '',
+            true
+        );
+        $body = $this->clear($body);
+        //$this->validar($versao, $body, $this->schemeFolder, $xsd, '');
+
+        return '<nfd><![CDATA[<?xml version="1.0" encoding="utf-8"?>' . $body . ']]></nfd>';
     }
 }

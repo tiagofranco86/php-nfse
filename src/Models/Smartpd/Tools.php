@@ -52,36 +52,7 @@ abstract class Tools extends ToolsBase
         if (empty($this->versao)) {
             throw new \LogicException('Informe a versão do modelo.');
         }
-    }
-
-    public function makeXml($rps, $loteId)
-    {
-        $class = "NFePHP\\NFSe\\Models\\Smartpd\\Factories\\v{$this->versao}\\RecepcionarLoteRps";
-        $fact = new $class($this->certificate);
-
-        $fact->setXmlns($this->xmlns);
-        $fact->setSchemeFolder($this->schemeFolder);
-        $fact->setCodMun($this->config->cmun);
-        $fact->setSignAlgorithm($this->algorithm);
-        $fact->setTimezone($this->timezone);
-
-        $message = $fact->render(
-            $this->versao,
-            $this->remetenteTipoDoc,
-            $this->remetenteCNPJCPF,
-            $this->remetenteIM,
-            $loteId,
-            [$rps]
-        );
-
-        $dom = new \DOMDocument('1.0', 'UTF-8');
-        $dom->preserveWhiteSpace = false;
-        $dom->formatOutput = false;
-        $dom->loadXML($message);
-
-        return $message;
-    }
-
+    }   
 
     public function recepcionarLoteRps($lote, $rpss)
     {
@@ -107,7 +78,7 @@ abstract class Tools extends ToolsBase
         return $this->sendRequest('', $message);
     }
 
-    public function ConsultarUrlNota(array $dados)
+    public function consultarUrlNota(array $dados)
     {
         extract($dados);
         $class = "NFePHP\\NFSe\\Models\\Smartpd\\Factories\\v{$this->versao}\\ConsultarUrlNota";
@@ -150,11 +121,12 @@ abstract class Tools extends ToolsBase
         $fact = new $class($this->certificate);
 
         $this->method = 'nfdEntradaCancelar';
-        $fact->xmlns = $this->xmlns;
-        $fact->schemeFolder = $this->schemeFolder;
-        $fact->codMun = $this->municipioGerador;
-        $fact->algorithm = $this->algorithm;
-
+        $fact->setXmlns($this->xmlns);
+        $fact->setSchemeFolder($this->schemeFolder);
+        $fact->setCodMun($this->config->cmun);
+        $fact->setSignAlgorithm($this->algorithm);
+        $fact->setTimezone($this->timezone);
+        
         $message = $fact->render(
             $this->versao,
             $dataCancelamento,
@@ -187,10 +159,8 @@ abstract class Tools extends ToolsBase
         $request = "<web:{$this->method}>"
         . "<cpfUsuario>" . $this->config->cpfUsuario . "</cpfUsuario>"
         . "<hashSenha>$hashSenha</hashSenha>"        
-        . "<codigoMunicipio>3</codigoMunicipio>"
-        . '<nfd><![CDATA['.$message.']]></nfd>'
-    . "</web:{$this->method}>";
-    //$request = "<web:nfdEntrada><cpfUsuario>40402017000190</cpfUsuario><hashSenha>hKiZFsMcg7oBrYCN3949cXF5wh8=</hashSenha><inscricaoMunicipal></inscricaoMunicipal><codigoMunicipio>3</codigoMunicipio><tbnfd><nfd><numeronfd>0</numeronfd><codseriedocumento>7</codseriedocumento><codnaturezaoperacao>512</codnaturezaoperacao><codigocidade>3</codigocidade><inscricaomunicipalemissor>4718405</inscricaomunicipalemissor><dataemissao>30/07/2022</dataemissao><razaotomador>ALESSANDRA DE FARIA NASCIMENTO</razaotomador><nomefantasiatomador>ALESSANDRA DE FARIA NASCIMENTO</nomefantasiatomador><enderecotomador>Rua Professor Augusto Rusch</enderecotomador><cidadetomador>Vila Velha</cidadetomador><estadotomador>ES</estadotomador><paistomador>Brasil</paistomador><fonetomador>4199999999</fonetomador><faxtomador/><ceptomador>29102080</ceptomador><bairrotomador>Bairro</bairrotomador><emailtomador>teste@gmail.com</emailtomador><tppessoa>J</tppessoa><cpfcnpjtomador>3142254714</cpfcnpjtomador><inscricaoestadualtomador/><inscricaomunicipaltomador/><observacao>teste</observacao><tbservico><servico><quantidade>1.000</quantidade><descricao>TAXA DE SERVIÇO</descricao><codatividade>1401</codatividade><valorunitario>5,00</valorunitario><aliquota>5,00</aliquota><impostoretido>False</impostoretido></servico></tbservico><razaotransportadora/><cpfcnpjtransportadora/><enderecotransportadora/><tipofrete/><quantidade/><especie/><pesoliquido>0,00</pesoliquido><pesobruto>0,00</pesobruto><pis>0,00</pis><cofins>0,00</cofins><csll>0,00</csll><irrf>0,00</irrf><inss>0,00</inss><descdeducoesconstrucao>0,00</descdeducoesconstrucao><totaldeducoesconstrucao>0,00</totaldeducoesconstrucao><tributadonomunicipio>true</tributadonomunicipio><numerort>1</numerort><codigoseriert>7</codigoseriert><dataemissaort>30/07/2022</dataemissaort></nfd></tbnfd></web:nfdEntrada>";
+        . $message
+        . "</web:{$this->method}>";
     
         $action = '';
         $this->params = [];
