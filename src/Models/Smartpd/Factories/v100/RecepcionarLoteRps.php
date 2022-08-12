@@ -307,7 +307,7 @@ class RecepcionarLoteRps extends Factory
             self::$dom->addChild(
                 $servico,
                 'quantidade',
-                $servicoInf->quantidade,
+                number_format($servicoInf->quantidade, 2, ',', ''),
                 true,
                 'quantidade',
                 false
@@ -334,7 +334,7 @@ class RecepcionarLoteRps extends Factory
             self::$dom->addChild(
                 $servico,
                 'valorunitario',
-                $servicoInf->valorunitario,
+                number_format($servicoInf->valorunitario, 2, ',', ''),
                 true,
                 'valorunit,ario',
                 false
@@ -369,7 +369,7 @@ class RecepcionarLoteRps extends Factory
             'razaotransportadora',
             '',
             true,
-            'pis',
+            'razaotransportadora',
             false
         );
 
@@ -378,7 +378,7 @@ class RecepcionarLoteRps extends Factory
             'cpfcnpjtransportadora',
             '',
             true,
-            'pis',
+            'cpfcnpjtransportadora',
             false
         );
 
@@ -387,7 +387,7 @@ class RecepcionarLoteRps extends Factory
             'enderecotransportadora',
             '',
             true,
-            'pis',
+            'enderecotransportadora',
             false
         );
 
@@ -396,7 +396,7 @@ class RecepcionarLoteRps extends Factory
             'tipofrete',
             '',
             true,
-            'pis',
+            'tipofrete',
             false
         );
 
@@ -405,7 +405,7 @@ class RecepcionarLoteRps extends Factory
             'quantidade',
             $rps->quantidade,
             true,
-            'pis',
+            'quantidade',
             false
         );
 
@@ -413,30 +413,29 @@ class RecepcionarLoteRps extends Factory
         self::$dom->addChild(
             $nfd,
             'especie',
-            //$rps->especie,
-            '',
+            $rps->especie,
             true,
-            'pis',
+            'especie',
             false
         );
 
         self::$dom->addChild(
             $nfd,
             'pesoliquido',
-            //number_format($rps->pis, 2, ',', ''),
+            //number_format($rps->pesoliquido, 2, ',', ''),
             "",
             true,
-            'pis',
+            'pesoliquido',
             false
         );
 
         self::$dom->addChild(
             $nfd,
             'pesobruto',
-            //number_format($rps->pis, 2, ',', ''),
+            //number_format($rps->pesobruto, 2, ',', ''),
             "",
             true,
-            'pis',
+            'pesobruto',
             false
         );
 
@@ -486,20 +485,18 @@ class RecepcionarLoteRps extends Factory
         self::$dom->addChild(
             $nfd,
             'descdeducoesconstrucao',
-            //number_format($rps->descdeducoesconstrucao, 2, ',', ''),
-            "",
+            number_format($rps->descdeducoesconstrucao, 2, ',', ''),
             true,
-            'tributadonomunicipio',
+            'descdeducoesconstrucao',
             false
         );
 
         self::$dom->addChild(
             $nfd,
             'totaldeducoesconstrucao',
-            //number_format($rps->totaldeducoesconstrucao, 2, ',', ''),
-            "",
+            number_format($rps->totaldeducoesconstrucao, 2, ',', ''),
             true,
-            'tributadonomunicipio',
+            'totaldeducoesconstrucao',
             false
         );
 

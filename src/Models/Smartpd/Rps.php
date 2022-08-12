@@ -828,7 +828,7 @@ class Rps extends RpsBase
             throw new \InvalidArgumentException($msg);
         }
 
-        $this->codnaturezaoperacao = $value;
+        $this->enderecotransportadora = $value;
     }
 
     /**
@@ -850,7 +850,7 @@ class Rps extends RpsBase
             throw new \InvalidArgumentException($msg);
         }
 
-        $this->codnaturezaoperacao = $value;
+        $this->tipofrete = $value;
     }
     
     /**
