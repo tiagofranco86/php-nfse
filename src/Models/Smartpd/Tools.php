@@ -52,7 +52,7 @@ abstract class Tools extends ToolsBase
         if (empty($this->versao)) {
             throw new \LogicException('Informe a versão do modelo.');
         }
-    }   
+    }
 
     public function recepcionarLoteRps($lote, $rpss)
     {
@@ -65,11 +65,11 @@ abstract class Tools extends ToolsBase
         $fact->setCodMun($this->config->cmun);
         $fact->setSignAlgorithm($this->algorithm);
         $fact->setTimezone($this->timezone);
-        
+
         $message = $fact->render(
-            $this->versao,            
+            $this->versao,
             $lote,
-            $rpss
+            $rpss,
         );
 
         // @header ("Content-Disposition: attachment; filename=\"NFSe_Lote.xml\"" );
@@ -126,7 +126,7 @@ abstract class Tools extends ToolsBase
         $fact->setCodMun($this->config->cmun);
         $fact->setSignAlgorithm($this->algorithm);
         $fact->setTimezone($this->timezone);
-        
+
         $message = $fact->render(
             $this->versao,
             $dataCancelamento,
@@ -140,8 +140,6 @@ abstract class Tools extends ToolsBase
 
     protected function sendRequest($url, $message)
     {
-        $this->xmlRequest = $message;
-        
         if (!$url) {
             $url = $this->urlEntrada[$this->config->tpAmb];
         }
@@ -150,18 +148,12 @@ abstract class Tools extends ToolsBase
             $this->soap = new SoapCurl($this->certificate);
         }
 
-        /*$dom = new \DOMDocument('1.0', 'UTF-8');
-        $dom->preserveWhiteSpace = false;
-        $dom->formatOutput = false;
-        $dom->loadXML($message);*/
         $hashSenha = base64_encode(sha1($this->config->senhaUsuario, true));
-             
-        $request = "<web:{$this->method}>"
-        . "<cpfUsuario>" . $this->config->cpfUsuario . "</cpfUsuario>"
-        . "<hashSenha>$hashSenha</hashSenha>"        
-        . $message
-        . "</web:{$this->method}>";
-    
+        $xmlRequest = "<cpfUsuario>{$this->config->cpfUsuario}</cpfUsuario><hashSenha>$hashSenha</hashSenha>$message";
+        $this->xmlRequest = $xmlRequest;
+
+        $request = "<web:{$this->method}>$xmlRequest</web:{$this->method}>";
+
         $action = '';
         $this->params = [];
         return $this->soap->send(

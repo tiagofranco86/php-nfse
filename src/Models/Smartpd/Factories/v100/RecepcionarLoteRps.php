@@ -51,10 +51,11 @@ class RecepcionarLoteRps extends Factory
             '',
             true
         );
+        
         $body = $this->clear($body);
         #$this->validar($versao, $body, $this->schemeFolder, $xsd, '', $this->cmun);
         #echo '<pre>'.print_r($body).'</pre>';die;
-        return '<codigoMunicipio>3</codigoMunicipio><nfd><![CDATA[<?xml version="1.0" encoding="utf-8"?>' . $body . ']]></nfd>';
+        return "<codigoMunicipio>{$rps->codigocidade}</codigoMunicipio><nfd><![CDATA[$body]]></nfd>";
     }
 
 
@@ -100,8 +101,7 @@ class RecepcionarLoteRps extends Factory
         self::$dom->addChild(
             $nfd,
             'codigocidade',
-            //$rps->codigocidade,
-            3,
+            $rps->codigocidade,
             true,
             "Serie do documento",
             false
