@@ -52,11 +52,11 @@ class SoapCurl extends SoapCurlBase
             $soapver,
             $soapheader
         );
-        
+
         $parameters = [
             'SoapAction: ""',
             'Content-Type: text/xml; charset=UTF-8',
-            "Content-Length: ".strlen($envelope)
+            "Content-Length: " . strlen($envelope)
         ];
 
         $this->requestHead = implode("\n", $parameters);
@@ -95,6 +95,7 @@ class SoapCurl extends SoapCurlBase
             $response = curl_exec($oCurl);
             //dd($response);
             $this->soaperror = curl_error($oCurl);
+            $this->soaperror_code = curl_errno($oCurl);
             $ainfo = curl_getinfo($oCurl);
             if (is_array($ainfo)) {
                 $this->soapinfo = $ainfo;
@@ -113,10 +114,10 @@ class SoapCurl extends SoapCurlBase
             throw SoapException::unableToLoadCurl($e->getMessage());
         }
         if ($this->soaperror != '') {
-            throw SoapException::soapFault($this->soaperror . " [$url]");
+            throw SoapException::soapFault($this->soaperror . " [$url]", $this->soaperror_code);
         }
         if ($httpcode != 200) {
-            throw SoapException::soapFault(" [$url]" . $this->responseHead);
+            throw SoapException::soapFault(" [$url]" . $this->responseHead, $this->soaperror_code);
         }
         return $this->responseBody;
     }
