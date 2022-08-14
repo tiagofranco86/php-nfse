@@ -21,6 +21,11 @@ use NFePHP\Common\Soap\SoapCurl as SoapCurlBase;
 class SoapCurl extends SoapCurlBase
 {
     /**
+     * @var int
+     */
+    protected $soaptimeout = 120;
+    
+    /**
      * Send soap message to url
      * @param string $url
      * @param string $operation
