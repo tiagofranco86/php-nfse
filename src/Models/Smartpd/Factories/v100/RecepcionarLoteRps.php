@@ -39,7 +39,8 @@ class RecepcionarLoteRps extends Factory
         }
 
         //Parse para XML
-        $xml = str_replace('<?xml version="1.0" encoding="utf-8"?>', '', $dom->saveXML());
+        $xml = $this->clear($dom->saveXML());
+        $this->validar($versao, $xml, $this->schemeFolder, $xsd, '', $this->cmun);
 
         $body = Signer::sign(
             $this->certificate,
@@ -52,8 +53,6 @@ class RecepcionarLoteRps extends Factory
             true
         );
         
-        $body = $this->clear($body);
-        #$this->validar($versao, $body, $this->schemeFolder, $xsd, '', $this->cmun);
         #echo '<pre>'.print_r($body).'</pre>';die;
         return "<codigoMunicipio>{$rps->codigocidade}</codigoMunicipio><nfd><![CDATA[$body]]></nfd>";
     }
