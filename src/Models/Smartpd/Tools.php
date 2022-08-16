@@ -150,8 +150,8 @@ abstract class Tools extends ToolsBase
 
         $hashSenha = base64_encode(sha1($this->config->senhaUsuario, true));
         $xmlRequest = "<cpfUsuario>{$this->config->cpfUsuario}</cpfUsuario><hashSenha>$hashSenha</hashSenha>$message";
-        $this->xmlRequest = $xmlRequest;
-
+        $this->xmlRequest = "<xml>$xmlRequest</xml>";
+        
         $request = "<web:{$this->method}>$xmlRequest</web:{$this->method}>";
 
         $action = '';
