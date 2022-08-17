@@ -253,7 +253,7 @@ class RecepcionarLoteRps extends Factory
         self::$dom->addChild(
             $nfd,
             'observacao',
-            "teste",
+            $rps->observacao,
             true,
             'observacao',
             false
