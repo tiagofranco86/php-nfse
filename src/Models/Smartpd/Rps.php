@@ -796,13 +796,13 @@ class Rps extends RpsBase
     public function observacao($value, $campo = null)
     {
         if (!$campo) {
-            $msg = "A observacao não pode ser vazia e deve ter até 20 caracteres.";
+            $msg = "A observacao não pode ser vazia e deve ter até 255 caracteres.";
         } else {
-            $msg = "O item '$campo' não pode ser vazio e deve ter até 20 caracteres. Informado: '$value'";
+            $msg = "O item '$campo' não pode ser vazio e deve ter até 255 caracteres. Informado: '$value'";
         }
 
         $value = trim($value);
-        if (!empty($value) && !Validator::stringType()->length(1, 20)->validate($value)) {
+        if (!empty($value) && !Validator::stringType()->length(1, 255)->validate($value)) {
             throw new \InvalidArgumentException($msg);
         }
 
