@@ -1052,12 +1052,13 @@ class Rps extends RpsBase
     public function descdeducoesconstrucao($value, $campo = null)
     {
         if (!$campo) {
-            $msg = "Os valores devem ser numericos tipo float.";
+            $msg = "A descição da deducoes não pode ser vazia e deve ter até 255 caracteres.";
         } else {
-            $msg = "O item '$campo' deve ser numérico tipo float. Informado: '$value'";
+            $msg = "O item '$campo' não pode ser vazio e deve ter até 255 caracteres. Informado: '$value'";
         }
 
-        if (!empty($value) && !Validator::numeric()->floatVal()->min(0)->validate($value)) {
+        $value = trim($value);
+        if (!Validator::stringType()->length(0, 255)->validate($value)) {
             throw new \InvalidArgumentException($msg);
         }
 

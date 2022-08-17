@@ -484,7 +484,7 @@ class RecepcionarLoteRps extends Factory
         self::$dom->addChild(
             $nfd,
             'descdeducoesconstrucao',
-            number_format($rps->descdeducoesconstrucao, 2, ',', ''),
+            $rps->descdeducoesconstrucao,
             true,
             'descdeducoesconstrucao',
             false
