@@ -199,7 +199,7 @@ class RecepcionarLoteRps extends Factory
         self::$dom->addChild(
             $nfd,
             'ceptomador',
-            '88558885',
+            $rps->ceptomador,
             true,
             'Fone Tomador',
             false
@@ -208,7 +208,7 @@ class RecepcionarLoteRps extends Factory
         self::$dom->addChild(
             $nfd,
             'bairrotomador',
-            'Bairro',
+            $rps->bairrotomador,
             true,
             'Fone Tomador',
             false
@@ -217,7 +217,7 @@ class RecepcionarLoteRps extends Factory
         self::$dom->addChild(
             $nfd,
             'emailtomador',
-            'teste@gmail.com',
+            $rps->emailtomador,
             true,
             'Fone Tomador',
             false
@@ -366,7 +366,7 @@ class RecepcionarLoteRps extends Factory
         self::$dom->addChild(
             $nfd,
             'razaotransportadora',
-            '',
+            $rps->razaotransportadora,
             true,
             'razaotransportadora',
             false
@@ -375,7 +375,7 @@ class RecepcionarLoteRps extends Factory
         self::$dom->addChild(
             $nfd,
             'cpfcnpjtransportadora',
-            '',
+            $rps->cpfcnpjtransportadora,
             true,
             'cpfcnpjtransportadora',
             false
@@ -384,7 +384,7 @@ class RecepcionarLoteRps extends Factory
         self::$dom->addChild(
             $nfd,
             'enderecotransportadora',
-            '',
+            $rps->enderecotransportadora,
             true,
             'enderecotransportadora',
             false
