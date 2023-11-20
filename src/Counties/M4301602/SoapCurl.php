@@ -54,7 +54,7 @@ class SoapCurl extends SoapCurlBase
             $soapheader
         );
         $msgSize = strlen($envelope);
-        $parameters[] ="Content-length: $msgSize";
+        $parameters[] = "Content-length: $msgSize";
         if (!empty($action)) {
             $parameters[0] .= "action=$action";
         }
@@ -135,13 +135,13 @@ class SoapCurl extends SoapCurlBase
      */
     private function getCodeMessage($code)
     {
-        $codes = json_decode(file_get_contents(__DIR__.'/httpcodes.json'), true);
+        $codes = json_decode(file_get_contents(__DIR__ . '/../../Common/httpcodes.json'), true);
         if (!empty($codes[$code])) {
             return $codes[$code]['description'];
         }
         return "Erro desconhecido.";
     }
-    
+
     /**
      * Set proxy into cURL parameters
      * @param resource $oCurl
